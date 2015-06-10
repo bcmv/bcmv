@@ -1,0 +1,25 @@
+-each item in items
+	section.cart-item
+		h4=item.title
+			-if(item.year)
+				span &nbsp;(#{item.year})
+		section
+			-each file in item.files
+				section.cart-file
+					-var size = prettyBytes(file.size);
+					-if(item.type == "Series")
+						section 
+							strong Season #{file.season} Episode #{file.episode}
+					section #{file.extension} — MVR #{file.price} - (#{size}) &nbsp;
+						button(type='button', data-id=file._id).btn.btn-sm.remove-cart-item remove
+-var total_b = prettyBytes(total_bytes);
+h3 Total MVR #{total_price} - (#{total_b})
+-if(items.length)
+	hr
+	-if(!checkout)
+		a(href='/cart/checkout').btn.btn-lg.btn-success.btn-block(type='button') Checkout
+		section(style='text-align:center;')
+			a(href='/logout') Cancel and end session
+	-else
+		form(method='post', action='/cart/commit')
+			input.btn.btn-lg.btn-danger.btn-block(type='submit') Commit		

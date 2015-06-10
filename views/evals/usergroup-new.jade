@@ -1,0 +1,32 @@
+-var tid = ~~(Math.random() * 100000000);
+-var modal_id = "modal_" + tid;
+-var modal_form_id = "modal_" + tid;
+div.modal.fade.usergroup-new(tabindex="-1", role="dialog", aria-hidden="true", id=modal_id)
+	div.modal-dialog.modal-sm
+		div.modal-content
+			div.modal-header
+				button(type='button', data-dismiss='modal').close
+					span(aria-hidden='true') &times;
+					span.sr-only close
+				h4.modal-title User group
+			div.modal-body
+				form.form
+					section.form-group
+						label Name
+						input(type='text', name='name').form-control
+					section.form-group
+						label Description
+						textarea(name='description').form-control
+					section.form-group
+						button(type='button').btn.save-form Create
+
+script.
+	$("##{modal_id}").modal('show');
+	$("##{modal_id} .save-form").click(function(){
+		var data = $("##{modal_id} form").serializeJSON();
+		vod.handleCommand({
+			route:"/usergroup",
+			method:"post",
+			payload:data
+		});
+	})

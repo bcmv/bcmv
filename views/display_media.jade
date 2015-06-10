@@ -1,0 +1,86 @@
+extends layout
+
+block content
+	section.row
+		section.col-md-5
+			section#media-display-container
+				-var  url =  "http://img-cdn.video2home.net:8020/posters/"+_id +'.jpg'
+				img(src=url).img-responsive
+				h1=title
+		section.col-md-7(style='background: white')
+			h3=year
+			section.row
+				//
+					-if(rating_imdb)
+						section.col-md-4
+							h1=rating_imdb
+							h5 IMDB
+					-if(rating_rt)
+						section.col-md-4
+							h1 #{rating_rt}%
+							h5 RT
+			-if(quality)
+				span.label.label-default=quality
+			section.pull-right
+				-if(rating_imdb)
+					span.label.label-default IMDB: #{rating_imdb}
+					span &nbsp;
+				//
+					-if(typeof rating_rt != 'undefined' && rating_rt != '-1' || rating_rt != -1)
+						span.label.label-default Rotten Tomatoes: #{rating_rt}%
+			br
+			br
+			-if(type == "Application")
+				pre=description
+			-else
+				p=description
+			hr
+			-if(type=='Series')
+				section
+					h4 Season
+					ul.pagination#season-listing
+						-for(var i in formatted)
+							li
+								a(href='javascript:;',  data-episodes=formatted[i])=i
+					h4 Episodes
+					ul.pagination#episode-listing
+					section#files
+			-else
+				section#files
+					h2 Files
+					include components/display-media-files
+	script.
+		$(function(){
+			$('body').on('click', '.add-file', function(){
+				var id = $(this).attr('data-id');
+				$.post('/cart/add', {file:id}, function(res){
+					if(res.error){
+						return alert(res.error);
+					}
+					vod.refreshCart();
+				});
+			});
+			$('body').on('click', '#season-listing a', function(){
+				var self = $(this);
+				$('#season-listing li').removeClass('active');
+				self.parent().addClass('active');
+				var d = self.data().episodes;
+				$('#episode-listing').html('');
+				console.log(d);
+				for(var ep in d){
+					var episode = d[ep];
+					$('#episode-listing').append('<li><a data-files="'+encodeURIComponent(JSON.stringify(episode))+'" href="javascript:;">'+ ep +'</a></li>');
+				}
+			});
+			$('body').on('click', '#episode-listing a', function(){
+				var self = $(this);
+				$('#episode-listing li').removeClass('active');
+				self.parent().addClass('active');
+				var files = self.data().files;
+				files = decodeURIComponent(files);
+				files = JSON.parse(files);
+				var html = jade.render('display-media-files', {files:files});
+
+				$('#files').html(html);
+			});
+		});

@@ -1,0 +1,8 @@
+*~
+node_modules
+public/temp
+public/css/app.css
+bower_components
+temp
+lib/enc.js
+config.json

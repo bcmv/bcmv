@@ -1,0 +1,35 @@
+-var tid = ~~(Math.random() * 100000000);
+-var modal_id = "modal_" + tid;
+-var modal_form_id = "modal_" + tid;
+div.modal.fade.usergroup-new(tabindex="-1", role="dialog", aria-hidden="true", id=modal_id)
+	div.modal-dialog.modal-md
+		div.modal-content
+			div.modal-header
+				button(type='button', data-dismiss='modal').close
+					span(aria-hidden='true') &times;
+					span.sr-only close
+				h4.modal-title User group
+			div.modal-body
+				-each group in usergroups
+					section
+						h3
+							| #{group.name}
+							-if(group.added)
+								button.btn.btn-success.command.pull-right(data-cmd-route='/user/' + user._id + '/groups/toggle', data-payload-id=group._id.toString(), data-cmd-method='post') Remove
+							-else
+								button.btn.command.pull-right(data-cmd-route='/user/' + user._id + '/groups/toggle', data-payload-id=group._id.toString(), data-cmd-method='post') Add
+
+						p=group.description
+					hr
+
+
+script.
+	$("##{modal_id}").modal('show');
+	$("##{modal_id} .save-form").click(function(){
+		var data = $("##{modal_id} form").serializeJSON();
+		vod.handleCommand({
+			route:"/usergroup",
+			method:"post",
+			payload:data
+		});
+	})

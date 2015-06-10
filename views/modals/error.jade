@@ -1,0 +1,10 @@
+div.modal.fade(tabindex="-1", role="dialog", aria-hidden="true", style='z-index:9999')#modal-error
+	div.modal-dialog.modal-sm
+		div.modal-content
+			div.modal-header
+				button(type='button', data-dismiss='modal').close
+					span(aria-hidden='true') &times;
+					span.sr-only close
+				h4.modal-title Alert
+			div.modal-body
+				h5#error-message

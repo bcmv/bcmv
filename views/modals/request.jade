@@ -1,0 +1,13 @@
+div.modal.fade(tabindex="-1", role="dialog", aria-hidden="true")#modal-request
+	div.modal-dialog.modal-sm
+		div.modal-content
+			div.modal-header
+				button(type='button', data-dismiss='modal').close
+					span(aria-hidden='true') &times;
+					span.sr-only close
+				h4.modal-title Request content
+			div.modal-body
+				input.form-control#request-title(type='text', placeholder="Title")
+				textarea.form-control#request-details(type='text', placeholder="Description about it. Ex: season, episode, platform, year, quality...etc", rows='5')
+				hr
+				button(type='button').btn.btn-block.btn-warning#send-request Send request

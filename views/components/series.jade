@@ -1,0 +1,22 @@
+section.row
+	h1 #{title}
+	-if(vod.user && typeof subscribed != "undefined")
+		if(subscribed)
+			button(type='button', class='btn btn-default btn-sm active subscription-toggle', data-id=_id.toString())
+				span.glyphicon.glyphicon-ok
+				span.watchlist-label &nbsp; watchlisted
+		-else
+			button(type='button', class='btn btn-default btn-sm subscription-toggle', data-id=_id.toString())
+				span.glyphicon.glyphicon-plus
+				span.watchlist-label &nbsp; add to watchlist
+
+	-var desc = description.length > 250 ? description.substring(0, 250) + "..." : description;	
+	p=desc
+	section
+		-if(typeof latest_episode != 'undefined')
+			-var f = 'Season ' + latest_episode.season + ' Episode ' + latest_episode.episode;
+			-if(vod.user)
+				a(href='/media/download/'+ _id + '/' + latest_episode._id).label.label-default Download #{f} (#{latest_episode.size})
+			-else
+				a(href='/login').label.label-default Login to Download #{f} (#{latest_episode.size})
+		a(href='/v/' + _id).view-more view more

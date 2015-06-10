@@ -1,0 +1,8 @@
+extends cart-layout
+
+block content
+	section.col-md-5
+		-if(locals._user)
+			h3.vod-heading Confirm Checkout
+			section.watchlist.vod-heading#cart-items
+			script vod.refreshCart(true)

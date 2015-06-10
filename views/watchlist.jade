@@ -1,0 +1,37 @@
+extends layout
+
+block content
+	h1.vod-heading Watchlist
+	section.row
+		section.col-md-3
+			section#watchlist-series.row
+		section.col-md-9
+			section.watchlist-container
+				-each episode in _watchlist
+					section(data-series=episode.series, class="col-md-12 watchlist-item " + (episode.to_watch ? "active" : ""))
+						section.col-md-3
+							-var url = "http://img-cdn.video2home.net:8020/posters/"+episode.series_id+"_med.jpg";
+							img.img-responsive(src=url)
+						section.col-md-9
+							h4
+								a(href='/v/' + episode.series_id)=episode.series
+							h6(style=(episode.to_watch == true?"font-weight:bold":"")) Season #{episode.season} Episode #{episode.episode}
+							h6.watchlist-time=episode.time_str
+							a(href='/media/download/' + episode.series_id + '/' + episode._id, class="btn btn-sm " +(episode.to_watch == true?"btn-danger":"btn-default")) Download
+
+	script.
+		$(function(){
+			var eps = $(".watchlist-item");
+			var grouped = _.groupBy(eps, function(e){return $(e).find("h4").text()});
+			var series = _.keys(grouped);
+			var series_r = jade.render('watchlist-series',{series:series})
+			$("#watchlist-series").html(series_r);
+			$('body').on('click', '#watchlist-series h5', function(){
+				var self = $(this);
+				$('#watchlist-series h5').removeClass('active');
+				self.addClass('active');
+				var series = self.attr('data-series');
+				$(".watchlist-item[data-series!='"+series+"']").hide();
+				$(".watchlist-item[data-series='"+series+"']").show();
+			});
+		})

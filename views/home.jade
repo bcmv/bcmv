@@ -1,0 +1,36 @@
+extends layout
+
+block content
+	h1.vod-heading.hide Top Downloads
+		section.btn-group.pull-right(data-toggle="buttons")#top-media-options
+			button.command.btn(type='button', data-cmd-route='/media/top/recent', data-cmd-method='get', data-cmd-template="item", data-cmd-display="#top-downloads")
+				input(type='radio', name='top-downloads-type')
+				| RECENT
+			button.command.btn(type='button', data-cmd-route='/media/top/week', data-cmd-method='get', data-cmd-template="item", data-cmd-display="#top-downloads")
+				input(type='radio', name='top-downloads-type')
+				| WEEK
+			button.command.btn(type='button', data-cmd-route='/media/top/month', data-cmd-method='get', data-cmd-template="item", data-cmd-display="#top-downloads")
+				input(type='radio', name='top-downloads-type')
+				| MONTH	
+		-if(ads.below_top_downloads)
+			br
+			section.advertisement(data-id=ads.below_top_downloads._id.toString())
+				img(src='http://img-cdn.video2home.net:8020/ads/' + ads.below_top_downloads.file_name)
+	ul.dl-horizontal.listing#top-downloads
+	h1.vod-heading New Releases
+		section.btn-group.pull-right(data-toggle="buttons")#newmedia-media-options
+			button.command.btn(type='button', data-cmd-route='/media/new/movies', data-cmd-method='get', data-cmd-template="item", data-cmd-display="#new-releases")
+				input(type='radio', name='new-releases-type')
+				| MOVIES
+			button.command.btn(type='button', data-cmd-route='/media/new/series', data-cmd-method='get', data-cmd-template="item", data-cmd-display="#new-releases")
+				input(type='radio', name='new-releases-type')
+				| TV SHOWS
+			button.command.btn(type='button', data-cmd-route='/media/new/apps', data-cmd-method='get', data-cmd-template="item", data-cmd-display="#new-releases")
+				input(type='radio', name='new-releases-type')
+				| APPS	
+		-if(ads.below_new_releases)
+			br
+			section.advertisement(data-id=ads.below_new_releases._id.toString())
+				img(src='http://img-cdn.video2home.net:8020/ads/' + ads.below_new_releases.file_name)
+	ul.dl-horizontal.listing#new-releases
+	script $(function(){$("#newmedia-media-options button:first, #top-media-options button:first").trigger('click');});

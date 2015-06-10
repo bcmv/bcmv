@@ -1,0 +1,90 @@
+section.form-group
+	label.col-sm-3.control-label Search
+	section.col-sm-9
+		input.form-control.typeahead(type='text', placeholder='Search for existing apps', media-search="application", media-limit="10", media-fields="_id,title").search
+section.form-group
+	label.col-sm-3.control-label
+	section.col-sm-9
+		button(type='button').btn.btn-warning#new-media-button New App
+section#new-media-form-content
+	h2 App details 
+		img(src='/images/loader.gif', style='display:none;')#loader
+	hr
+	section.form-group
+		label.col-sm-3.control-label Title
+		section.col-sm-9
+			input.form-control(type='text', media-prop-type='text', placeholder='Title', required, media-prop="title")
+	section.form-group
+		label.col-sm-3.control-label category
+		section.col-sm-9
+			section.btn-group(data-toggle='buttons', media-prop-type='group', media-prop='category')
+				label.btn.btn-primary.btn-md.active
+					input(type="radio", name="recipient_type")
+					span Software
+				label.btn.btn-primary.btn-md
+					input(type="radio", name="recipient_type")
+					span Game
+				label.btn.btn-primary.btn-md
+					input(type="radio", name="recipient_type")
+					span App
+	section.form-group
+		label.col-sm-3.control-label platform
+		section.col-sm-9
+			section.btn-group(data-toggle='buttons', media-prop-type='group', media-prop='platform')
+				label.btn.btn-primary.btn-md.active
+					input(type="radio", name="recipient_type")
+					span Windows
+				label.btn.btn-primary.btn-md
+					input(type="radio", name="recipient_type")
+					span Mac
+				label.btn.btn-primary.btn-md
+					input(type="radio", name="recipient_type")
+					span Linux
+				label.btn.btn-primary.btn-md
+					input(type="radio", name="recipient_type")
+					span Android
+				label.btn.btn-primary.btn-md
+					input(type="radio", name="recipient_type")
+					span iOS
+				label.btn.btn-primary.btn-md
+					input(type="radio", name="recipient_type")
+					span Windows Mobile
+				label.btn.btn-primary.btn-md
+					input(type="radio", name="recipient_type")
+					span PS1
+				label.btn.btn-primary.btn-md
+					input(type="radio", name="recipient_type")
+					span PS2
+				label.btn.btn-primary.btn-md
+					input(type="radio", name="recipient_type")
+					span PS3
+				label.btn.btn-primary.btn-md
+					input(type="radio", name="recipient_type")
+					span PS4
+				label.btn.btn-primary.btn-md
+					input(type="radio", name="recipient_type")
+					span XBox
+				label.btn.btn-primary.btn-md
+					input(type="radio", name="recipient_type")
+					span XBox 360
+				label.btn.btn-primary.btn-md
+					input(type="radio", name="recipient_type")
+					span XBox 360
+	section.form-group
+		label.col-sm-3.control-label Poster
+		section.col-sm-9
+			input.form-control(type='text', media-prop-type='text', placeholder='Enter poster URL', media-prop="poster")
+			img#media-image.img-responsive
+	section.form-group
+		label.col-sm-3.control-label Description
+		section.col-sm-9
+			textarea.form-control(rows='10', media-prop-type='text', placeholder='Description', required, media-prop="description")
+	section.form-group
+		label.col-sm-3.control-label Files
+		section.col-sm-9
+			section#display-uploaded-media
+	section.form-group
+		label.col-sm-3.control-label
+		section.col-sm-9
+			section
+				button(type='button').btn.btn-success#save-info Save Info

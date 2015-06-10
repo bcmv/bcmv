@@ -1,0 +1,12 @@
+section.row
+	h1 #{title}
+	-var desc = description.length > 250 ? description.substring(0, 250) + "..." : description.length;
+	p=desc
+	section
+		-var files = files.splice(0,1);
+		-each file in files
+			-if(vod.user)
+				a(href='/media/download/'+ _id + '/' + file._id).label.label-default Download (#{file.size})
+			-else
+				a(href='/login').label.label-default Login to Download (#{file.size})
+		a(href='/v/' + _id).view-more view more					

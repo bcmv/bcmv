@@ -1,0 +1,43 @@
+extends layout
+
+block content
+	style.
+		.harvest-item{background:#fcfcfc;padding:3px;margin-bottom:6px;}
+	h1.vod-heading Harvester
+	section.row
+		section.col-md-5
+			h3.vod-heading Queued downloads
+			section#harvest-items-incomplete
+		section.col-md-5
+			h3.vod-heading Completed downloads
+			section#harvest-items-completed
+	script(src='//cdnjs.cloudflare.com/ajax/libs/async/0.9.0/async.min.js')
+	script.
+		$(function(){
+			async.forever(function(next){
+				$.getJSON('/harvest/status', function(items){
+					_.each(items, function(item){
+						var el = $("#" + item._id);
+						if(el.length){
+							el
+							.find('.progress-bar')
+							.css('width',item.percent_done + '%')
+							.html('<span style="text-shadow:1px 1px rgba(100,100,100,.6)">'+(Math.round((item.percent_done + 0.00001) * 100) / 100)+'%</span>')
+
+						}else{
+							var html = jade.render('harvest-item',{item:item});
+							if(item.percent_done == 100){
+								$('#harvest-items-completed').prepend(html);
+							}else{
+								$('#harvest-items-incomplete').prepend(html);
+							}
+						}
+					});
+					setTimeout(function(){
+						next();
+					}, 500)
+				});
+			}, function(err){
+
+			})
+		})

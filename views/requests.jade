@@ -1,0 +1,37 @@
+extends layout
+
+block content
+	h1 Requests
+	-if(!user_requests.length)
+		h3 No new requests
+	-each user in user_requests
+		section.request-row
+			h4 Requested by #{user.username}
+			-each request in user.requests
+				-if(request.status == 'pending')
+					section.request-item-info.col-md-4
+						h4=request.title
+						h6=request.details
+						section
+							textarea(placeholder='Remarks (optional)').form-control
+							div.btn-group.send-request
+								button(type='button', data-rid=request._id.toString(),  data-id=user._id.toString()).btn.btn-sm Invalid
+								button(type='button', data-rid=request._id.toString(),  data-id=user._id.toString()).btn.btn-sm Completed
+
+	script.
+		$(function(){
+			$("body").on('click', '.send-request button', function(){
+				var self = $(this);
+				var id = self.attr('data-id');
+				var rid = self.attr('data-rid');
+				var status = self.text().toLowerCase();
+				var remarks = self.parent().find('textarea').val();
+				$.post('/media/request/' + rid,{status:status, remarks:remarks, id:id}, function(res){
+					$("#error-message").text(res.error || res.message);
+					$("#modal-error").modal('show');
+					if(res.message){
+						self.parent().parent().parent().slideUp();
+					}
+				});
+			})
+		})

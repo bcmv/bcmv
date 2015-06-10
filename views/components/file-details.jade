@@ -1,0 +1,7 @@
+section.row
+-each file in files
+	-var size = prettyBytes(file.size)
+	section(style='margin-bottom:5px;')
+		span.label.label-default #{file.name} (#{size})
+		span &nbsp;&nbsp;
+		span.delete-file.label.label-danger(data-id=file._id) delete

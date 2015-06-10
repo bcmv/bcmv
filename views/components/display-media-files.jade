@@ -1,0 +1,20 @@
+
+table.table.table-bordered
+	thead
+		tr
+			th #
+			th Type
+			th Size
+			th Price (MVR)
+			th Action
+	tbody
+		-each file,i in files
+			tr
+				-var id = file._id.toString();
+				-var ftype = file.extension && file.extension.toLowerCase() == "srt" ? "subtitle file" : "media file";
+				td=i+1
+				td=file.extension
+				td=file.size
+				td=file.price
+				td
+					button.btn.btn-info.add-file(data-id=id) Add to cart

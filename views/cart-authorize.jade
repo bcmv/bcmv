@@ -1,0 +1,28 @@
+extends cart-layout
+
+block content
+	section.col-md-12
+		h1.vod-heading(style='padding:10px;margin-top:200px; text-align:center') ##{transaction_number}
+		section#cart-authorize-message
+			h1.vod-heading(style='padding:10px; text-align:center') Pending authorization. Please pay to proceed.
+			h5.vod-heading(style='padding:10px; text-align:center') This page will update when you pay. 
+				a(href='/cart/cancel') click here to cancel.
+		section#cart-copy.hide
+			h1.vod-heading(style='padding:10px; text-align:center') Plug in your storage device.
+			h5.vod-heading(style='padding:10px; text-align:center') Click on the device.
+		script.
+			var transaction_number = #{transaction_number};
+			async.forever(function(next){
+				$.get('/cart/status', function(t){
+					if(t.status == "payment received"){
+						window.location.href = '/cart/move';
+						//next('');
+					}else{
+						setTimeout(function(){
+							next()
+						},500);
+					}
+				});
+			}, function(err){
+
+			})

@@ -1,0 +1,19 @@
+extends cart-layout
+
+block content
+	section.col-md-12
+		h1.vod-heading(style='padding:10px;margin-top:200px; text-align:center') ##{transaction_number}
+		section#cart-copy
+			h1.vod-heading(style='padding:10px; text-align:center') Plug in your storage device.
+			h5.vod-heading(style='padding:10px; text-align:center') Click on the device once it appear.
+		script.
+			var transaction_number = #{transaction_number};
+			async.forever(function(next){
+				$.get('/drives', function(t){
+					if(t.status == "payment received"){
+				
+					}
+				});
+			}, function(err){
+
+			})

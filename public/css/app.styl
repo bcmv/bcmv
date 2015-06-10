@@ -1,0 +1,374 @@
+DIALOG_COLOR = #E23636
+*
+	font-family "Open Sans"
+body
+	position relative
+	background: #ebebeb;
+header
+	background #131313
+	box-shadow 0px 0px 4px rgba(100,100,100,.3)
+	-webit-box-shadow 0px 0px 4px rgba(100,100,100,.3)
+	-moz-box-shadow 0px 0px 4px rgba(100,100,100,.3)
+	margin-bottom 15px
+	.navbar
+		margin-bottom 0
+		ul
+			line-height 94px;
+			li
+				text-align center
+				a
+					font-weight: 900;
+					height: 94px;
+					line-height: 94px;
+					color #fff !important
+					text-transform: uppercase;
+					padding 0
+					width 100px
+					-webkit-transition background-color .2s ease-in
+					&:hover
+						background-color #f0f0f0 !important
+#logo
+	width 200px						
+.navbar-default
+	background-color transparent
+	border-color transparent
+.navbar-brand
+	font-size: 36px;
+	font-weight: bolder;
+	color: white !important;
+.popover
+	border none
+	max-width 100%
+	width 400px
+	background-color DIALOG_COLOR
+	border-radius 0
+	.row
+		padding 5px
+		color white
+	h1
+		margin-top 0
+.popover.right>.arrow
+	top 10%
+.popover.right>.arrow:after
+	border-right-color DIALOG_COLOR
+paper-input
+	width 100%
+.listing
+	margin-top: 20px;
+.listing li
+	padding-left: 0px;
+	padding-right: 1px;
+	//margin-right 1px
+	height 333px;
+	//width 158px
+	//max-height 238px
+	//max-width 158px	
+	overflow hidden
+	margin: 6px;
+	background: white;
+	border-bottom: 1px silver solid;
+	border-radius: 5px;
+	padding: 10px
+	a
+		text-decoration none
+		color black
+		h4
+			color #464646;
+			font-size 14px
+			font-weight bold
+			text-align: center;
+			text-transform: uppercase;
+	section
+		//height 178px
+		//width 100%
+		background-size: cover;
+.listing li.selected
+	section
+		box-shadow 0px 0px 15px rgba(0,0,0,.3)
+.tabpop
+	position: fixed;
+	background: DIALOG_COLOR
+	bottom -500px
+	width: 100%;
+	padding 30px
+	z-index: 1000;
+	color white
+	-webkit-transition: bottom .2s ease-in
+	transition: bottom .2s ease-in
+.tabpop-anim-in
+	bottom 0px
+.tabpop-anim-out
+	bottom -500px
+#admin-panel
+	background: #414141
+	padding: 10px;
+	line-height: inherit;
+.home-task
+	color white
+.home-task .glyphicon
+	font-size: 17px
+.btn-group .btn-link.active
+	color black
+.file-dropper-file
+	padding 10px
+.typeahead
+	z-index: 1051;
+.tt-dropdown-menu
+	position: absolute;
+	top: 100%;
+	left: 0;
+	z-index: 1000;
+	display: none;
+	float: left;
+	min-width: 160px;
+	padding: 5px 0;
+	margin: 2px 0 0;
+	list-style: none;
+	font-size: 14px;
+	background-color: #ffffff;
+	border: 1px solid #cccccc;
+	border: 1px solid rgba(0, 0, 0, 0.15);
+	border-radius: 4px;
+	-webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+	background-clip: padding-box;
+.tt-suggestion > p
+	display: block;
+	padding: 3px 20px;
+	clear: both;
+	font-weight: normal;
+	line-height: 1.428571429;
+	color: #333333;
+	white-space: nowrap;
+.tt-suggestion > p:hover
+.tt-suggestion > p:focus
+.tt-suggestion.tt-cursor p
+	color: #ffffff;
+	text-decoration: none;
+	outline: 0;
+	background-color: #428bca;
+#finder
+	height: 50px;
+	padding: 8px 12px;
+	font-size: 24px;
+	line-height: 30px;
+	border: 2px solid #ccc;
+	-webkit-border-radius: 8px;
+	-moz-border-radius: 8px;
+	border-radius: 8px;
+	outline: none;
+	width 100%
+#finder:focus
+	border: 2px solid #0097cf;
+.pagination>li>a
+	margin-bottom: 6px;
+	border-radius none
+#search-more
+	background #ECECEC
+	padding 10px
+	font-size 20px
+	text-align: center;
+#nothing-found
+	color: #c0c0c0;
+.featured-content-pic
+	height:400px;
+	background:#00989e;
+	background-repeat:no-repeat;
+	background-size cover
+.featured-content-info
+	height: 50%;
+	width: 50%;
+	overflow: auto;
+	margin: auto;
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	h3
+		font-weight bolder
+	p
+		font-size 12px
+.media
+	>a
+		position relative
+		>div
+			position absolute
+		section
+			background-image url(http://placehold.it/211x250&text=media)
+.img-holder
+	-webkit-filter: contrast(0) brightness(1.9);
+	filter contrast(0) brightness(1.9);
+	-moz-filter contrast(0) brightness(1.9);
+.vod-form>input
+	margin-bottom 10px
+.vod-list-inline
+	li
+		cursor pointer
+		h2
+		h4
+			font-family "Open Sans"
+			font-weight 800
+			color #c9c9c9
+	li.active
+		h2
+		h4
+			color black
+.main-filter
+	.btn
+		background-color #5A5A5A
+		text-shadow: 1px 1px 1px rgba(0,0,0,.5);
+		color white
+	.btn.active
+		background-color #e23636
+#listings-subpropfilter
+	margin-bottom: 10px;
+	.btn-group-vertical
+		width 100%
+#test
+	width:100%;
+	height:430px;
+	-webkit-filter: blur(5px) grayscale(0.8);
+	z-index:-1;
+	position:absolute;
+	background-size cover
+#ttt
+	z-index 10000
+	color white
+	padding 0px 50px
+	padding-top 52px
+	h1
+		font-weight 900
+		text-shadow: 1px 1px rgba(0,0,0,.3);
+#tt:before
+	background:#00989e;
+	//background-repeat:no-repeat;
+	background-size cover
+	content: "";
+	position: absolute;
+	background-size: cover;
+	z-index: -1;
+	height: 20%; width: 20%;
+	-webkit-transform: scale(5);
+	-webkit-transform-origin: top left;
+	filter: blur(5px);
+	-webkit-filter: blur(5px);
+#media-display-container
+	display: inline-block;
+	background: white;
+	box-shadow: 0 32px 36px -20px gray;
+	h1
+		padding 10px
+		margin 0
+		text-transform: uppercase;
+		font-weight: 100;
+		color #444
+	img
+		width 100%
+#finder-container
+	margin-bottom 20px
+.view-more
+	color: white;
+	padding: 10px;
+	font-size: smaller;
+.watchlist
+	background white
+.vod-heading
+	font-weight: 100;
+	text-transform: uppercase;
+	color: #525252;
+	text-shadow: 1px 1px 1px rgba(0,0,0,.2);
+#display-users-container
+	background-color white
+.flag-item-info
+.request-item-info
+	background white
+	margin-bottom 5px
+	padding 10px
+.request-item-info
+	height 200px
+	border-right: 1px solid #f0f0f0
+	section
+		bottom: 6px;
+		position: absolute;
+		width: 94%;
+.request-row
+	display: table;
+	width: 100%;
+.file-dropper-file
+	background white
+	margin-bottom: 5px;
+.btn-circle
+	width: 30px;
+	height: 30px;
+	text-align: center;
+	padding: 6px 0;
+	font-size: 12px;
+	line-height: 1.428571429;
+	border-radius: 15px;
+.btn-circle.btn-lg
+	width: 50px;
+	height: 50px;
+	padding: 10px 16px;
+	font-size: 18px;
+	line-height: 1.33;
+	border-radius: 25px;
+.btn-circle.btn-xl
+	width: 70px;
+	height: 70px;
+	padding: 10px 16px;
+	font-size: 24px;
+	line-height: 1.33;
+	border-radius: 35px;
+.delete-file
+	cursor pointer
+.popover
+	z-index 1000
+#new-media-form-content
+	display none
+.watchlist-item
+	background white
+	padding 0
+	margin-bottom 1px
+	&:hover
+		background #f0f0f0
+	>section
+		padding 5px
+	img
+		height 160px
+.watchlist-item.active
+	background: rgba(216, 255, 222, 0.92);
+.watchlist-time
+	color #747474
+#watchlist-series
+	h5
+		background: #FFFFFF;
+		padding: 10px;
+		color: #3C3C3C;
+		margin: 1px 0;
+		cursor pointer
+	h5.active
+		background: #FF6B6B;
+		color: white;
+#signin-help
+	cursor pointer 
+.file-download-link
+	margin-bottom 10px
+	.btn
+		width 75%
+.vod-heading .btn-group
+	margin-right: 7px;
+	button.active
+		background: rgb(238, 60, 60);
+		color: white;
+.insight-box
+	background white
+	padding 15px
+	overflow: auto;
+#cart-items
+	padding 10px
+//.cart-item
+.cart-file
+	padding 10px 0;
+.cart-authorize-item
+	padding 5px;

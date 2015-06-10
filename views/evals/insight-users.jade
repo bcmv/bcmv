@@ -1,0 +1,48 @@
+section.col-md-12
+	section.insight-box
+		section.col-md-12
+			section
+				h1.vod-heading User growth
+					section.pull-right.btn-group(data-toggle="buttons")
+						button.btn
+							input(type='radio', name='user-growth')
+							| All
+						button.btn
+							input(type='radio', name='user-growth')
+							| 2010
+						button.btn
+							input(type='radio', name='user-growth')
+							| 2011
+						button.btn
+							input(type='radio', name='user-growth')
+							| 2012
+						button.btn
+							input(type='radio', name='user-growth')
+							| 2013
+				canvas#chart-users-overview
+		section.col-md-4
+			-each item in data
+				section
+					h1=item.count
+					h6=item._id
+-var d = JSON.stringify(data);
+script.
+	var data = !{d};
+	var sorted_stat = _.sortBy(data.stat, function(d){return new Date(d._id.year, d._id.month,0)});
+	var stat = {
+		labels: sorted_stat.map(function(s){ return "" + s._id.year + '/' + s._id.month }),
+		datasets: [
+			{
+				label: "haha",
+				fillColor: "rgba(220,220,220,0.2)",
+				strokeColor: "rgba(220,220,220,1)",
+				pointColor: "rgba(220,220,220,1)",
+				pointStrokeColor: "#fff",
+				pointHighlightFill: "#fff",
+				pointHighlightStroke: "rgba(220,220,220,1)",
+				data: sorted_stat.map(function(s){ return s.count })
+			}
+		]			
+	}
+	var ctx = document.getElementById("chart-users-overview").getContext("2d");
+	var chart = new Chart(ctx).Line(stat, {responsive: true});

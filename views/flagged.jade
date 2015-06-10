@@ -1,0 +1,31 @@
+extends layout
+
+block content
+	h1 Flagged
+	-if(!flagged.length)
+		h3 No flagged items
+	-each item in flagged
+		section
+			h3
+				a(href='/v/' + item._id)=item.title
+			-each file in item.files
+				-if(file.flags && file.flags.length)
+					-if(item.type=="Series")
+						h4 Season #{file.season} Episode #{file.episode}
+					-each flag in file.flags
+						-if(!flag.solved)
+							section.flag-item-info
+								h4=file.location
+								h4=flag.reason
+								button(type='button', data-id=flag._id.toString(), data-fid=file._id.toString()).btn.flag-solved Solved
+	script.
+		$(function(){
+			$("body").on('click', '.flag-solved', function(){
+				var parent = $(this).parent();
+				var id = $(this).attr('data-id');
+				var fid = $(this).attr('data-fid');
+				$.post('/media/flag/solve',{id:id, fid:fid}, function(res){
+					parent.fadeOut();
+				});
+			})
+		})

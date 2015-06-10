@@ -1,0 +1,15 @@
+{
+	"movies": {
+		"label":"movies",
+		"url": "http://videotohome.net/p?q=https://kickass.to/movies/?field=time_add&sorder=desc",
+		"scrape":{
+			"links":{
+				"selector":[".markeredBlock a.cellMainLink:first-child"],
+				"attribute":"href"
+			},
+			"imdb":{
+				"selector":".botmarg0 li:nth-child(3)"
+			}
+		}
+	}
+}

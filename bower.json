@@ -1,0 +1,39 @@
+{
+  "name": "design-boilerplate",
+  "version": "1.0.0",
+  "homepage": "https://github.com/iulogy/design-boilerplate",
+  "authors": [
+    "iulogy"
+  ],
+  "main": "app.js",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#~0.3.3",
+    "core-elements": "Polymer/core-elements#~0.3.3",
+    "paper-elements": "Polymer/paper-elements#~0.3.3",
+    "bootstrap": "~3.2.0",
+    "jquery": "1.11.1",
+    "davis": "~0.9.8",
+    "enquire": "~2.1.1",
+    "pretty-bytes": "~0.1.2",
+    "bootstrap3-typeahead": "bassjobsen/Bootstrap-3-Typeahead#~3.0.3",
+    "bloodhound": "http://twitter.github.io/typeahead.js/releases/latest/bloodhound.js",
+    "underscore": "~1.6.0",
+    "typeahead.js": "~0.10.5",
+    "infinite-scroll": "~2.0.2",
+    "parsleyjs": "~2.0.5",
+    "jquery.serializeJSON": "~2.4.1",
+    "chartjs": "~0.2.0",
+    "socket.io-client": "~1.2.0",
+    "moment": "~2.8.3",
+    "bootstrap-datetimepicker": "~0.0.11",
+    "smalot-bootstrap-datetimepicker": "smalot/bootstrap-datetimepicker#~2.3.1"
+  }
+}

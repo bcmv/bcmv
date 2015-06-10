@@ -1,0 +1,45 @@
+extends layout
+
+block content
+	script(src='http://202.21.176.106/live/flowplayer-3.2.0.min.js')
+	h1.vod-heading Watch Live TV
+	section.btn-group(data-toggle="buttons")#switch
+		button.btn(type='button', data-live='live1')
+			input(type='radio', name='top-downloads-type')
+			| TVM
+		button.btn(type='button', data-live='live2')
+			input(type='radio', name='top-downloads-type')
+			| RaajjeTV
+		button.btn(type='button', data-live='live3')
+			input(type='radio', name='top-downloads-type')
+			| Channel 13
+		button.btn(type='button', data-live='live4')
+			input(type='radio', name='top-downloads-type')
+			| DhiTV
+		button.btn(type='button', data-live='live5')
+			input(type='radio', name='top-downloads-type')
+			| Channel One
+		button.btn(type='button', data-live='live6')
+			input(type='radio', name='top-downloads-type')
+			| VTV
+	section#player(style='height:450px;')
+	script.
+		$("body").on('click', '#switch button', function(){
+			var s = $(this).attr('data-live');
+			$f("player", "http://202.21.176.106/live/flowplayer-3.2.14.swf", {
+				clip: {
+					url : s, 
+					live : true,
+					provider: 'rtmp'
+				},
+				plugins: {
+					rtmp: {
+						url: 'flowplayer.rtmp-3.2.0.swf',
+						netConnectionUrl: 'rtmp://202.21.176.106/live' ,
+						subscribe:true 
+					}
+				}   
+			});
+		});
+		$('#switch button:first').trigger('click');
+

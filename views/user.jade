@@ -1,0 +1,48 @@
+extends layout
+
+block content
+	h1 Users
+	button(type='button').btn.btn-primary.pull-right.command(data-cmd-route='/usergroup', data-cmd-method='get') New User Group
+	input(placeholder="Search for users", style='width: 50%').form-control#search-user
+	section#display-users-container
+		table.table.table-bordered
+			thead
+				tr
+					th Name
+					th Username
+					th Email
+					th Contact
+					th Added
+					th User Groups
+					th Actions
+			tbody#display-users-body
+	script.
+		$(function(){
+			var s;
+			$("body").on('click', '.user-type-set li a', function(){
+				var id = $(this).parent().parent().attr('data-id');
+				var type = $(this).text();
+				var label = $(this).parent().parent().parent().find('.user-type-label');
+				$.post('/user/' + id + '/type',{type:type}, function(res){
+					label.text(type);
+				});
+			});
+			$("body").on('keyup', '#search-user', function(){
+				var val = $(this).val();
+				if(s){
+					s.abort();
+				}
+				s = $.getJSON('/user/search',{query:val}, function(res){
+					var html = jade.render('user',{users:res});
+					$("#display-users-body").html(html);
+				})
+			});
+		})
+block rightside
+	h2 Add User
+	section.well.vod-form#signup-form
+		input(type='text', placeholder='Full name', name='Name').form-control#signup-name
+		input(type='text', placeholder='Username', name='Username').form-control#signup-username
+		input(type='email', placeholder='Email', name='Email').form-control#signup-email
+		input(type='text', placeholder='Phone number', name='mobile').form-control#signup-mobile
+		input(type='submit', value='Add user').btn.btn-danger#signup

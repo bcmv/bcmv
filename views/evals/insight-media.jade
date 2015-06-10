@@ -1,0 +1,23 @@
+section.col-md-12
+	section.insight-box
+		section.col-md-8
+			section
+				canvas#c
+				-var d = JSON.stringify(data);
+				script.
+					var data = !{d};
+					data = data.map(function(d){
+						return {
+							value: d.count,
+							label: d._id,
+							color: '#'+(Math.random()*0xFFFFFF<<0).toString(16),
+							highlight: '#'+(Math.random()*0xFFFFFF<<0).toString(16),				
+						}
+					});
+					var ctx = document.getElementById("c").getContext("2d");
+					var myNewChart = new Chart(ctx).Doughnut(data, {responsive: true});
+		section.col-md-4
+			-each item in data
+				section
+					h1=item.count
+					h6=item._id

@@ -1,0 +1,100 @@
+section.form-group
+	label.col-sm-3.control-label Search
+	section.col-sm-9
+		input.form-control.typeahead(type='text', placeholder='Search for existing movies', media-search="series", media-limit="10", media-fields="_id,title").search
+section.form-group
+	label.col-sm-3.control-label
+	section.col-sm-9
+		button(type='button').btn.btn-warning#new-media-button New Movie
+section#new-media-form-content
+	h2 Movie details 
+		img(src='/images/loader.gif', style='display:none;')#loader
+	hr
+	section.form-group
+		label.col-sm-3.control-label IMDB url
+		section.col-sm-9
+			input.form-control(type='text', media-prop-type='text', placeholder='Enter IMDB url', media-prop="imdb_id")#media-retrieve-data
+	section.form-group
+		label.col-sm-3.control-label Poster
+		section.col-sm-9
+			input.form-control(type='text', media-prop-type='text', placeholder='Enter poster URL', media-prop="poster")
+			img#media-image.img-responsive
+	section.form-group
+		label.col-sm-3.control-label Title
+		section.col-sm-9
+			input.form-control(type='text', media-prop-type='text', placeholder='Title', required, media-prop="title")
+	section.form-group
+		label.col-sm-3.control-label Year
+		section.col-sm-9
+			input.form-control(type='text', media-prop-type='text', placeholder='Year', required, media-prop="year")
+	section.form-group
+		label.col-sm-3.control-label Description
+		section.col-sm-9
+			textarea.form-control(rows='10', media-prop-type='text', placeholder='Description', required, media-prop="description")
+	section.form-group
+		label.col-sm-3.control-label Duration
+		section.col-sm-9
+			input.form-control(type='text', media-prop-type='text', placeholder='Duration', required, media-prop="duration")
+	section.form-group
+		label.col-sm-3.control-label Genre
+		section.col-sm-9
+			input.form-control(type='text', media-prop-type='text', placeholder='Genre', required, media-prop="genre")
+	section.form-group
+		label.col-sm-3.control-label Languages
+		section.col-sm-9
+			input.form-control(type='text', media-prop-type='Languages', placeholder='Genre', required, media-prop="languages")
+	section.form-group
+		label.col-sm-3.control-label IMDB rating
+		section.col-sm-9
+			input.form-control(type='text', media-prop-type='text', placeholder='IMDB ratings', required, media-prop="rating_imdb")
+	section.form-group
+		label.col-sm-3.control-label Rotten Tomatoes rating
+		section.col-sm-9
+			input.form-control(type='text', media-prop-type='text', placeholder='Rotten Tomatoes rating', required, media-prop="rating_rt")
+	section.form-group(style='display:none;')
+		label.col-sm-3.control-label Directory
+		section.col-sm-9
+			input.form-control(type='text', media-prop-type='text', placeholder='Folder location on file system', required, media-prop="directory")
+	section.form-group
+		label.col-sm-3.control-label Quality
+		section.col-sm-9
+			section.btn-group(data-toggle='buttons', media-prop-type='group', media-prop='quality')#media-quality
+				label.btn.btn-primary.btn-md.active
+					input(type="radio", name="recipient_type")
+					span Cam
+				label.btn.btn-primary.btn-md
+					input(type="radio", name="recipient_type")
+					span HDCam
+				label.btn.btn-primary.btn-md
+					input(type="radio", name="recipient_type")
+					span TS
+				label.btn.btn-primary.btn-md
+					input(type="radio", name="recipient_type")
+					span HDTS
+				label.btn.btn-primary.btn-md
+					input(type="radio", name="recipient_type")
+					span SD
+				label.btn.btn-primary.btn-md
+					input(type="radio", name="recipient_type")
+					span DVDrip
+				label.btn.btn-primary.btn-md
+					input(type="radio", name="recipient_type")
+					span HDrip
+				label.btn.btn-primary.btn-md
+					input(type="radio", name="recipient_type")
+					span BDrip
+				label.btn.btn-primary.btn-md
+					input(type="radio", name="recipient_type")
+					span 720p
+				label.btn.btn-primary.btn-md
+					input(type="radio", name="recipient_type")
+					span 1080p
+	section.form-group
+		label.col-sm-3.control-label Files
+		section.col-sm-9
+			section#display-uploaded-media
+	section.form-group
+		label.col-sm-3.control-label
+		section.col-sm-9
+			section
+				button(type='button').btn.btn-success#save-info Save Info

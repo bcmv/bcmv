@@ -1,0 +1,265 @@
+extends layout
+
+block content
+	style .jumbotron{background-color:white;}
+	h1 Manage media
+	hr
+	h2 Type
+	section.btn-group(data-toggle='buttons', media-prop='type')#media-type
+		label.btn.btn-link.btn-lg.active(media-template='new-media-movie')
+			input(type="radio", name="recipient_type")
+			h3
+				span.glyphicon.glyphicon-film
+			| Movie
+		label.btn.btn-link.btn-lg(media-template='new-media-series')
+			input(type="radio", name="recipient_type")
+			h3
+				span.glyphicon.glyphicon-th-large
+			| Series
+		label.btn.btn-link.btn-lg(media-template='new-media-app')
+			input(type="radio", name="recipient_type")
+			h3
+				span.glyphicon.glyphicon-download-alt
+			| Application
+	section#media-info(data-id=id)
+		section.jumbotron
+			section#new-media-info-container.form-horizontal
+	section.btn-group(data-toggle='buttons', media-prop='media-file-type', style='display:none')#media-file-type
+		label.btn.btn-link.btn-lg.active(media-template='new-media-download-file')
+			input(type="radio", name="recipient_type")
+			h3
+				span.glyphicon.glyphicon-open
+			| Upload
+		label.btn.btn-link.btn-lg(media-template='new-media-download-torrent', disabled)
+			input(type="radio", name="recipient_type")
+			h3
+				span.glyphicon.glyphicon-magnet
+			| Torrent
+		label.btn.btn-link.btn-lg(media-template='new-media-download-remote', disabled)
+			input(type="radio", name="recipient_type")
+			h3
+				span.glyphicon.glyphicon-download
+			| Remote Download
+		label.btn.btn-link.btn-lg(media-template='new-media-download-youtube', disabled)
+			input(type="radio", name="recipient_type")
+			h3
+				span.glyphicon.glyphicon-download
+			| Youtube Download
+		section#media-file-type-container
+		hr
+		section#media-save
+			button(type='button').btn.btn-success#save Save Files
+	script.
+		$(function(){
+			$('#media-type label:first').trigger('click');
+			$("body").on('click',"#new-media-button", function(){
+				$('#media-type label.active').trigger('click');
+				$("#new-media-form-content").show();
+			});
+			$("body").on('click', '#save-info', function(){
+				var data = {};
+				data.type = $("#media-type label.active").text();
+				$("#new-media-info-container textarea[media-prop],#new-media-info-container input[media-prop]").each(function(){
+					var self = $(this);
+					var prop = self.attr("media-prop");
+					data[prop] = self.val();
+				});
+				//btn groups
+				$("#new-media-info-container .btn-group[media-prop]").each(function(){
+					var self = $(this);
+					var prop = self.attr("media-prop");
+					var val = self.find('label.active').text();
+					data[prop] = val;		
+				});
+				var title = $("[media-prop='title'");
+				var upload_type = $("#media-file-type label.active").text();
+				var url = window.vod.selectedMedia._id ? "/media/" + window.vod.selectedMedia._id : '/media/new';
+				$.post(url, data, function(res){
+					window.vod.selectedMedia = res;
+					if(res.error){
+						return vod.handleError(res.error);
+					}
+					$(".change-episode").trigger('change');
+					$("#media-file-type label:first").trigger('click');
+					$('#media-file-type').show();
+				});
+			});
+			$("body").on('click', '#save-file', function(){
+				var id = window.vod.selectedMedia._id;
+				var files = files_container;
+				var form = new FormData();				
+				try{
+					//for series
+					if(window.vod.selectedMedia.type=='Series'){
+						form.append('season', $("#change-series-season").val())
+						form.append('episode', $("#change-series-episode").val())
+					}
+
+					if(upload_type == "Upload"){
+						if(!files.length){
+							return alert('no files selected');
+						}
+						for(var i=0; i<files.length; i++){
+							var file = files[i];
+							/*if(file.size > 1024*1024*4000){
+								return alert("Maximum file size per file is 4000mb");
+							}*/
+							form.append(file.name, file);
+						}
+					}
+					if(upload_type == "Torrent"){
+						var magnet = $("#magnet-url").val();
+						if(!magnet || magnet == ""){
+							throw Error("no magnet link provided");
+						}
+					}
+					var xhr = new XMLHttpRequest();
+					xhr.open('POST','/media/'+id+'/upload');
+					var progressBar = document.querySelector('#uploading-value');
+					xhr.setRequestHeader('Accept', 'application/json');
+					xhr.upload.onprogress = function(e) {
+						if (e.lengthComputable) {
+							console.log(e.loaded,e.total);
+							progressBar.innerHTML = (((e.loaded / e.total) * 100) << .1) + "%";
+						}
+						if(e.loaded ===  e.total){
+							progressBar.innerHTML = "Done!"
+						}
+					};
+					xhr.onreadystatechange = function(){
+						if(xhr.readyState == 4 && xhr.status == 200){
+							try{
+								var res = JSON.parse(xhr.responseText);
+								if(res.error){
+									alert(res.error);
+								}else{
+									$(".change-episode").trigger('change');
+									$("#file-listing-uploading").slideUp();
+									var html = $(jade.render('file-listing', {item:res}));
+									$("#files-listing").prepend(html);
+									html.trigger('click');
+								}
+							}catch(e){
+								console.log(e);
+							}
+						}else{
+							//alert("Unable to upload");
+							console.log(xhr);
+							//window.location.reload(true);
+						}
+					}
+					xhr.send(form);
+				}catch(e){
+					alert(e.toString());
+				}
+			});
+			$("body").on('click','.delete-file', function(){
+				var self = $(this);
+				var id = $(this).attr('data-id').toString();
+				if(!confirm("Warning: This will remove the file from database and file system")){
+					return;
+				}
+				$.post('/media/delete-file', {id:id}, function(){
+					self.parent().slideUp("fast");
+				});
+			});
+			$("body").on('click', '#media-save', function(){
+				var files = files_container;
+				var form = new FormData();
+				var id = window.vod.selectedMedia._id;
+				try{
+					//for series
+					if(window.vod.selectedMedia.type=='Series'){
+						form.append('season', $("#change-series-season").val())
+						form.append('episode', $("#change-series-episode").val())
+					}
+					var upload_type = $("#media-file-type label.active").text();
+					if(upload_type == "Upload"){
+						if(!files.length){
+							return alert('no files selected');
+						}
+						var prices = {};
+						for(var i=0; i<files.length; i++){
+							var file = files[i];
+							form.append(file.name, file);
+							var price = $(".file-dropper-file").get(i);
+							price = $(price).find('select').val();
+							prices[file.name] = price;
+						}
+						form.append('prices', JSON.stringify(prices));
+					}
+					//console.log(pri)
+					var xhr = new XMLHttpRequest();
+					xhr.open('POST','/media/'+id+'/upload');
+					var progressBar = document.querySelector('#uploading-value');
+					xhr.setRequestHeader('Accept', 'application/json');
+					xhr.upload.onprogress = function(e) {
+						if (e.lengthComputable) {
+							console.log(e.loaded,e.total);
+							progressBar.innerHTML = (((e.loaded / e.total) * 100) << .1) + "%";
+						}
+						if(e.loaded ===  e.total){
+							progressBar.innerHTML = "Done!"
+						}
+					};
+					xhr.onreadystatechange = function(){
+						if(xhr.readyState == 4 && xhr.status == 200){
+							try{
+								var res = JSON.parse(xhr.responseText);
+								if(res.error){
+									alert(res.error);
+								}else{
+									$("#file-listing-uploading").slideUp();
+									files_container.length = 0;
+									$("#file-container").html('');
+									if(res.type == 'Series'){
+										$(".change-episode").trigger('change');
+										var html = $(jade.render('file-listing', {item:res}));
+										$("#files-listing").prepend(html);
+										html.trigger('click');
+									}else{
+										var html = jade.render('file-details',{files:res.files});
+										$("#display-uploaded-media").html(html);							
+									}
+								}
+							}catch(e){
+								console.log(e);
+							}
+						}else{
+							//alert("Unable to upload");
+							console.log(xhr);
+							//window.location.reload(true);
+						}
+					}
+					xhr.send(form);
+				}catch(e){
+					alert(e.toString());
+				}
+			});			
+			$("body").on('change','.change-episode', function(){
+				var season = $("#change-series-season").val()
+				var episode = $("#change-series-episode").val()
+				var id = window.vod.selectedMedia._id;
+				$.getJSON('/media/'+id+'/S' +season+"/E"+episode, function(res){
+					if(!res.length){
+						$("#change-series-episode-details").html("<span class='label label-danger'>No file found, use the options below to upload the file</span>")
+					}else{
+						var plot = _.find(res, function(f){return f.plot != undefined && f.plot != ''});
+						if(plot){
+							plot = plot.plot;
+						}
+						$("#change-series-episode-details").html(jade.render('change-series-episode-details',{files:res, plot:plot}));
+					}
+				});
+			});
+			$("body").on('click', '#episode-plot-save',function(){
+				var plot = $("#episode-plot").val();
+				var season = $("#change-series-season").val();
+				var episode = $("#change-series-episode").val();
+				var id = window.vod.selectedMedia._id;
+				//update plot
+				$.post('/media/'+id+'/' +season+"/"+episode + '/plot', {plot:plot}, function(){
+
+				});
+			});
+		});

@@ -1,0 +1,13 @@
+div.modal.fade(tabindex="-1", role="dialog", aria-hidden="true")#modal-verify
+	div.modal-dialog.modal-sm
+		div.modal-content
+			div.modal-header
+				button(type='button', data-dismiss='modal').close
+					span(aria-hidden='true') &times;
+					span.sr-only close
+				h4.modal-title Verify your account
+			div.modal-body
+				button(type='button').btn.btn-block.btn-warning#send-verification-code Text me a verification code
+				hr
+				input.form-control#verification-code(type='text', placeholder="Type the verification code you recieved.")
+				button(type='button').btn#confirm-verification Verify

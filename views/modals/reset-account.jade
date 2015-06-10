@@ -1,0 +1,17 @@
+div.modal.fade(tabindex="-1", role="dialog", aria-hidden="true")#modal-reset-account
+	div.modal-dialog.modal-sm
+		div.modal-content
+			div.modal-header
+				button(type='button', data-dismiss='modal').close
+					span(aria-hidden='true') &times;
+					span.sr-only close
+				h4.modal-title Reset your password
+			div.modal-body
+				input.form-control#reset-password-email(type='text', placeholder="Enter your email address")
+				button(type='button').btn.btn-block#send-reset-password Email me a reset link
+				hr
+				input.form-control#reset-password-code(type='text', placeholder="Enter reset code you got in email")
+				input.form-control#reset-password-password(type='password', placeholder="Enter a new password")
+				input.form-control#reset-password-password-repeat(type='password', placeholder="Repeat new password")
+				button(type='button').btn.btn-block.btn-warning#confirm-reset-password Change password
+

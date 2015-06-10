@@ -1,0 +1,51 @@
+-var tid = ~~(Math.random() * 100000000);
+-var modal_id = "modal_" + tid;
+-var modal_form_id = "modal_" + tid;
+div.modal.fade.user-edit-settings-modal(tabindex="-1", role="dialog", aria-hidden="true", id=modal_id, data-id="#{_id}")
+	div.modal-dialog.modal-md
+		div.modal-content
+			div.modal-header
+				button(type='button', data-dismiss='modal').close
+					span(aria-hidden='true') &times;
+					span.sr-only close
+				h4.modal-title Edit your details
+			div.modal-body
+				form.form
+					section.form-group
+						label Name
+						input(type='text', name='name', value=name, disabled).form-control
+					section.form-group
+						label Username
+						input(type='text', name='username',  value=username, disabled).form-control
+					section.form-group
+						label Email
+						input(type='text', name='email', value=email).form-control
+					section.form-group
+						label Phone number
+						input(type='text', name='phone_number', value=phone_number).form-control
+					section.form-group
+						label Password (enter a new one to change it)
+						input(type='password', name='password').form-control
+					section.form-group
+						label Re-enter above password
+						input(type='password', name='password-confirm').form-control
+					section.form-group
+						label Status &nbsp;
+						-if(status == 'registered')
+							button.btn.btn-sm.command.btn-success(type='button', title='activate user', data-id=_id, data-cmd-route='/user/' + _id + '/activate', data-cmd-method='post') Activate
+						-else
+							span &nbsp; Activated
+				//
+					section.form-group
+						button(type='button').btn.save-form Save settings
+script.
+	$("##{modal_id}").modal('show');
+	/*$("##{modal_id} .save-form").click(function(){
+		var id = $("##{modal_id}").attr('data-id');
+		var data = $("##{modal_id} form").serializeJSON();
+		vod.handleCommand({
+			route:"/user/details/" + id,
+			method:"post",
+			payload:data
+		});
+	})*/

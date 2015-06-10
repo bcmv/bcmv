@@ -1,0 +1,16 @@
+-var tid = ~~(Math.random() * 100000000);
+-var modal_id = "modal_" + tid;
+-var modal_form_id = "modal_" + tid;
+div.modal.fade(tabindex="-1", role="dialog", aria-hidden="true", id=modal_id)
+	div.modal-dialog.modal-sm
+		div.modal-content
+			div.modal-header(style='background: #015280;')
+				button(type='button', data-dismiss='modal').close
+					span(aria-hidden='true') &times;
+					span.sr-only close
+				h4.modal-title(style='color:white;') Message
+			div.modal-body
+				p=message
+
+script.
+	$("##{modal_id}").modal('show');

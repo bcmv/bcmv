@@ -1,0 +1,65 @@
+section.ad-manager-container(data-id=(typeof item._id != 'undefined' ? item._id : ''), data-type=item.type, data-size=item.size)
+	section.btn-group.pull-right.ad-manager-controls
+		button(type='button').btn.btn-info.save
+			span.glyphicon.glyphicon-floppy-disk
+		button(type='button').btn
+			span.glyphicon.glyphicon-remove
+	section.ad-manager-imageholder.ad-manager-head
+		img(src='/images/ad.jpg').img-responsive
+	section.ad-manager-body
+		section.row
+			section.col-md-6
+				h6 Media must be #{item.size[0]} x #{item.size[1]} pixels. Only JPG, PNG, GIF or Flash SWF files are accepted
+			section.col-md-6
+				p Change file
+					input(type='file').file
+		section.form-group
+			input(type='text', value=item.url, placeholder='URL to go when clicked (optional)').url.form-control
+		h3.ad-name(contenteditable='true').title=item.title
+		section.row
+			section.col-md-4
+				h5 Date
+				section.form-group
+					input(type='text', placeholder='Effective from', value=item.effective_from).form-control.date.effective-from
+				section.form-group
+					input(type='text', placeholder='Effective to', value=item.effective_to).form-control.date.effective-to
+			section.col-md-4
+				h5 Type
+				section.form-group
+					section.btn-group(data-toggle="buttons").payment_type
+						button.btn.btn-sm(type='button', class=(item.payment_type == 'fixed' ? 'active' : ''))
+							input(type='radio', name='ad_finance_type')
+							span Fixed		
+						button.btn.btn-sm(type='button', class=(item.payment_type == 'per view' ? 'active' : ''))
+							input(type='radio', name='ad_finance_type')
+							span Per view
+				section.form-group
+					section.input-group
+						section.input-group-addon MVR
+						input(type='number', placeholder='amount', value=item.payment_amount).form-control.payment_amount
+			section.col-md-4
+				h5 Priority
+				section.form-group
+					section.btn-group-vertical(data-toggle="buttons")
+						button.btn.btn-sm(type='button', class=(item.priority == 'low' ? 'active' : ''))
+							input(type='radio', name='ad_priority')
+							span Low		
+						button.btn.btn-sm(type='button', class=(item.priority == 'average' ? 'active' : ''))
+							input(type='radio', name='ad_priority')
+							span Average
+						button.btn.btn-sm(type='button', class=(item.priority == 'high' ? 'active' : ''))
+							input(type='radio', name='ad_priority')
+							span High
+
+	hr
+	if(typeof item._id != 'undefined')
+		section.ad-manager-footer.row
+			section.col-md-4
+				h1 3,604
+				span times seen
+			section.col-md-4
+				h1 288 MB
+				span transferred
+			section.col-md-4
+				h1 23 Days
+				span until expiry

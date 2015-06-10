@@ -1,0 +1,8 @@
+li.row.media(media-data=encodeURIComponent(JSON.stringify(item)), media-type=item.type, media-id=item._id)
+	section.col-md-4
+		-var url = "http://img-cdn.video2home.net:8020/posters/"+item._id+"_med.jpg";
+		img(src=url)
+	section.col-md-8
+		a(href="/media/" + item._id)
+			h3 #{item.title} (#{item.year})
+			p=item.description

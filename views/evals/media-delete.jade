@@ -1,0 +1,20 @@
+-var tid = ~~(Math.random() * 100000000);
+-var modal_id = "modal_" + tid;
+div.modal.fade(id=modal_id, tabindex="-1", role="dialog", aria-hidden="true", style='z-index:9999')
+	div.modal-dialog.modal-sm
+		div.modal-content
+			div.modal-header
+				button(type='button', data-dismiss='modal').close
+					span(aria-hidden='true') &times;
+					span.sr-only close
+				h4.modal-title Confirm delete file
+			div.modal-body
+				h5
+					strong This will remove:
+				ul
+					li Media from database
+					li All files associated with it
+					li Posters and all the screeshots
+				button.command.btn.btn-block(type='button', data-id=id, data-cmd-route='/media/' + id + '/delete', data-cmd-method='post') Ok, delete it.
+script.
+	$("##{modal_id}").modal('show');

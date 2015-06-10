@@ -1,0 +1,24 @@
+extends layout
+
+block content
+	section(style="text-align:center")
+		h1 Downloading 
+			strong #{title}
+		h6 your download will start in few seconds
+	hr
+	-if(ad)
+		section.advertisement(data-id=ad._id.toString())
+			img(src='http://img-cdn.video2home.net:8020/ads/' + ad.file_name)
+	hr
+	section#post
+	script.
+		window.downloadFile=function(e){if(/(iP)/g.test(navigator.userAgent))return alert("Your device does not support files downloading. Please try again in desktop browser."),!1;if(window.downloadFile.isChrome||window.downloadFile.isSafari){var n=document.createElement("a");if(n.href=e,void 0!==n.download){var o=e.substring(e.lastIndexOf("/")+1,e.length);n.download=o}if(document.createEvent){var i=document.createEvent("MouseEvents");return i.initEvent("click",!0,!0),n.dispatchEvent(i),!0}}return-1===e.indexOf("?")&&(e+="?download"),window.open(e,"_self"),!0},window.downloadFile.isChrome=navigator.userAgent.toLowerCase().indexOf("chrome")>-1,window.downloadFile.isSafari=navigator.userAgent.toLowerCase().indexOf("safari")>-1;
+		$(function(){
+			var token = "#{token}";
+			setTimeout(function(){
+				$.getJSON('#{url}' + '/serve?token=' + token, function(res){
+					window.downloadFile(res.file);
+					$("#post").html('<h5 style="text-align:center"><a href="'+res.file+'"> Download started, click here if you are having problems.</a></h5>')
+				});
+			}, 5000);
+		});

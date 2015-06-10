@@ -1,0 +1,11 @@
+section.row
+-each file in files
+	-var size = prettyBytes(file.size)
+	section
+		span.label.label-default #{file.name} (#{size})
+		span &nbsp;&nbsp;
+		span.delete-file.label.label-danger(data-id=file._id) delete
+br
+section
+	textarea(placeholder='Plot/synopsis').form-control#episode-plot=plot
+	button(type='button').btn#episode-plot-save Save plot

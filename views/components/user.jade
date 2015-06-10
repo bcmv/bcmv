@@ -1,0 +1,21 @@
+each user in users
+	-var date = new Date(user.date_registered);
+	tr
+		td=user.name
+		td=user.username
+		td=user.email
+		td=user.phone_number
+		td #{date.getDate()}/#{date.getMonth()}/#{date.getFullYear()}
+		td
+			-if(user.groups)
+				-each group in user.groups
+					section
+						span=group.name
+		td
+			section.btn-group
+				button.btn.btn-sm.command(type='button', title='add user group', data-id=user._id, data-cmd-route='/user/' + user._id + '/groups', data-cmd-method='get')
+					span.glyphicon.glyphicon-user
+				button.btn.btn-sm.command(type='button', title='remove user', data-id=user._id, data-cmd-route='/user/' + user._id, data-cmd-method='delete', data-cmd-confirm)
+					span.glyphicon.glyphicon-trash
+				button.btn.btn-sm.command(type='button', title='edit', data-id=user._id, data-cmd-route='/user/' + user._id + '/edit', data-cmd-method='get')
+					span.glyphicon.glyphicon-pencil

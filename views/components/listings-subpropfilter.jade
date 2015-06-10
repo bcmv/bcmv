@@ -1,0 +1,5 @@
+-each item in props
+	h4=item.title
+	section.btn-group-vertical(data-toggle='buttons', filter-prop=item.title)
+		-each val in item.values
+			label.btn.btn-default.btn-sm=val

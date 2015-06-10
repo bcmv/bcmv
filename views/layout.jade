@@ -1,0 +1,137 @@
+doctype html
+html
+	head
+		meta(http-equiv="Content-Type", content="text/html; charset=UTF-8")
+		meta(name="viewport", content="width=device-width, initial-scale=1.0, user-scalable=no")
+		title BellCell
+		link(rel='stylesheet', href='/fonts/opensans_local.css')
+		link(rel='stylesheet', href='http://static-cdn.video2home.net:8021/bootstrap/dist/css/bootstrap.min.css')
+		link(rel='stylesheet', href='/css/app.css')
+		script(src="/socket.io-client/socket.io.js")
+		script(src='http://static-cdn.video2home.net:8021/enquire/dist/enquire.min.js')
+		script(src='http://static-cdn.video2home.net:8021/underscore/underscore.js')
+		script(src='http://static-cdn.video2home.net:8021/jquery/dist/jquery.min.js')
+		script(src='http://static-cdn.video2home.net:8021/jquery.serializeJSON/jquery.serializejson.min.js')
+		script(src='http://static-cdn.video2home.net:8021/bootstrap/dist/js/bootstrap.min.js')
+		script(src='http://static-cdn.video2home.net:8021/typeahead.js/dist/typeahead.bundle.min.js')
+		script(src='http://static-cdn.video2home.net:8021/pretty-bytes/pretty-bytes.js')
+		script(src='/js/async.js')
+		script(src='/js/web.js')
+		script(src='/templates.js')
+		if(locals._user)
+			script window.vod.user = '#{locals._user.username}';
+	body
+		include modals/reset-account
+		include modals/request
+		include modals/verify
+		include modals/error
+		section.tabpop
+			h1
+			p
+		header
+			section.container
+				nav.navbar.navbar-default(role="navigation")
+					div.container-fluid
+						div.navbar-header
+							button(type='button', data-toggle="collapse", data-target="#header-menu").navbar-toggle
+								span.sr-only Toggle
+								span.icon-bar
+								span.icon-bar
+								span.icon-bar
+							a(href='/')
+								img(src="/images/logo_new.png")#logo
+								
+						div.collapse.navbar-collapse#header-menu.pull-right
+							ul.nav.navbar-nav
+								//li
+									a(href="/") Subscriptions
+								li
+									a(href="/movies") Movies
+								li
+									a(href="/series") Series
+								li
+									a(href="/applications") Apps
+								-if(locals._user)
+									//
+										li
+											a(href='/user/watchlist') Watchlist
+									li
+										a(href='/logout') Logout
+									//
+										li
+											a.command(href='#', title='Settings', data-cmd-route='/user/details', data-cmd-method='get')
+												span.glyphicon.glyphicon-cog
+								-else
+									li
+										a(href="/login") Login
+		section.container
+			section.row
+				section.col-md-8
+					-if(ads.above_search_bar)
+						section.advertisement(data-id=ads.above_search_bar._id.toString())
+							img(src='http://img-cdn.video2home.net:8020/ads/' + ads.above_search_bar.file_name)
+							br
+							br
+					section#finder-container
+						input(type='text', placeholder='Search for media')#finder
+						block finder
+					section#search-content
+					section#main-content
+						block content
+				section.col-md-4#sub-contents
+					-if(locals._user && locals._user.level > 1)
+						h3.vod-heading Requests
+						section.watchlist#requests
+						script vod.getRequests();
+					-if(locals._user && locals._user.level > 1)
+						h3.vod-heading manage
+						section.watchlist#admin-panel
+							a(href='/manage/media').home-task
+								h5
+									span.glyphicon.glyphicon-plus
+									| &nbsp; Manage media
+							a(href='/manage/flagged').home-task
+								h5
+									span.glyphicon.glyphicon-align-left
+									| &nbsp; Flagged media
+									| &nbsp;
+									span.label.label-info=admin_flagged_count
+							a(href='/media/requests').home-task
+								h5
+									span.glyphicon.glyphicon-pencil
+									| &nbsp;  Requests
+									| &nbsp;
+									span.label.label-info=admin_request_count
+							-if(locals._user.level >= 2)
+								a(href='/user').home-task
+									h5
+										span.glyphicon.glyphicon-user
+										| &nbsp;  Users
+						-if(locals._user && locals._user.hasAccess("marketing"))
+							section.watchlist#admin-panel
+								a(href='/ad').home-task
+									h5
+										span.glyphicon.glyphicon-user
+										| &nbsp;  Ads								
+
+					-if(locals._user && locals._user.level >= 2)
+						h3.vod-heading Servers
+						section.watchlist.vod-heading
+							-each server in stat_servers
+								-var con  = parseInt(server.status.connections);
+								section(style='padding: 2px 5px')
+									h5
+										span(style=(con != -1 ? "color:green":"color:red")).glyphicon.glyphicon-stop
+										| &nbsp; #{server.host}
+						-var total_con = stat_servers.reduce(function(a,b){return a+parseInt((b.status.connections == "-1" ? 0: b.status.connections))},0)
+						-var total_trans = stat_servers.reduce(function(a,b){return a+parseInt((b.status.transfer_rate == "-1" ? 0: b.status.transfer_rate))},0)
+						section
+							strong #{total_con} 
+							span connections
+						section
+							-var conv = function bytesToSize(bytes) {   if(bytes == 0) return '0 Byte';   var k = 1000;   var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];   var i = Math.floor(Math.log(bytes) / Math.log(k));   return (bytes / Math.pow(k, i)).toPrecision(3) + ' ' + sizes[i];}
+							strong #{conv(total_trans)}/Sec
+					-if(locals._user)
+						h3.vod-heading Cart
+						section.watchlist.vod-heading#cart-items
+						script vod.refreshCart()

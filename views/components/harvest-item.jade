@@ -1,0 +1,12 @@
+section.harvest-item(id=item._id)
+	button(type='button').btn.btn-sm.pull-right Remove
+	div.row
+		span.label.label-danger=item.download_type
+	br
+	section.form-group
+		button.btn.btn-sm Start now
+	p
+		strong
+			small=item.media_id
+	div.progress
+		div.progress-bar.progress-bar-info(style="width: "+item.percent_done+"%")

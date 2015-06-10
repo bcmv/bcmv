@@ -1,0 +1,28 @@
+extends layout
+
+block finder
+	section.well#filter-container
+		h5
+			span &nbsp;
+			span.label.label-default#clear-filter clear
+		section.row#filter-container-elements
+	script.
+		vod.searchType = "#{type}";
+		$(function(){
+			var html = jade.render('listings-filter-#{type}');
+			$("#filter-container-elements").html(html);
+			$("#filter-container-elements .btn-group").each(function(){
+				var self = $(this);
+				var prop = self.attr('filter-prop');
+				self.find('label').each(function(){
+					var label = $(this);
+					var text = label.text();
+					label.html('<input type="radio" name="'+prop+'">' + text);
+				})
+			});
+			$("body").on('click', '#clear-filter', function(){
+				$("#filter-container-elements li").removeClass('active');
+				vod.filterSearch();
+			});
+			$(".vod-list-inline li:first").trigger('click')
+		});

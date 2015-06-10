@@ -1,0 +1,69 @@
+doctype html
+html
+	head
+		meta(http-equiv="Content-Type", content="text/html; charset=UTF-8")
+		meta(name="viewport", content="width=device-width, initial-scale=1.0, user-scalable=no")
+		title BellCell
+		link(rel='stylesheet', href='/fonts/opensans_local.css')
+		link(rel='stylesheet', href='http://static-cdn.video2home.net:8021/bootstrap/dist/css/bootstrap.min.css')
+		link(rel='stylesheet', href='/css/app.css')
+		script(src="/socket.io-client/socket.io.js")
+		script(src='http://static-cdn.video2home.net:8021/enquire/dist/enquire.min.js')
+		script(src='http://static-cdn.video2home.net:8021/underscore/underscore.js')
+		script(src='http://static-cdn.video2home.net:8021/jquery/dist/jquery.min.js')
+		script(src='http://static-cdn.video2home.net:8021/jquery.serializeJSON/jquery.serializejson.min.js')
+		script(src='http://static-cdn.video2home.net:8021/bootstrap/dist/js/bootstrap.min.js')
+		script(src='http://static-cdn.video2home.net:8021/typeahead.js/dist/typeahead.bundle.min.js')
+		script(src='http://static-cdn.video2home.net:8021/pretty-bytes/pretty-bytes.js')
+		script(src='/js/async.js')
+		script(src='/js/web.js')
+		script(src='/templates.js')
+		if(locals._user)
+			script window.vod.user = '#{locals._user.username}';
+	body
+		include modals/reset-account
+		include modals/request
+		include modals/verify
+		include modals/error
+		section.tabpop
+			h1
+			p
+		header
+			section.container
+				nav.navbar.navbar-default(role="navigation")
+					div.container-fluid
+						div.navbar-header
+							button(type='button', data-toggle="collapse", data-target="#header-menu").navbar-toggle
+								span.sr-only Toggle
+								span.icon-bar
+								span.icon-bar
+								span.icon-bar
+							a(href='/')
+								img(src="/images/logo_new.png")#logo
+								
+						div.collapse.navbar-collapse#header-menu.pull-right
+							ul.nav.navbar-nav
+								//li
+									a(href="/") Subscriptions
+								li
+									a(href="/movies") Movies
+								li
+									a(href="/series") Series
+								li
+									a(href="/applications") Apps
+								-if(locals._user)
+									//
+										li
+											a(href='/user/watchlist') Watchlist
+									li
+										a(href='/logout') Logout
+									//
+										li
+											a.command(href='#', title='Settings', data-cmd-route='/user/details', data-cmd-method='get')
+												span.glyphicon.glyphicon-cog
+								-else
+									li
+										a(href="/login") Login
+		section.container
+			section.row
+				block content
