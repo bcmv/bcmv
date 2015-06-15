@@ -33,7 +33,11 @@ var prettyBytes = require('pretty-bytes');
 var authenticate = require('./routes/authenticate').authenticate;
 var authenticateAdmin = require('./routes/authenticate').authenticateAdmin;
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://127.0.0.1:27017/' + conf.db,{server:{poolSize:5}});
+var host = '127.0.0.1';
+if(conf.host){
+	host = conf.host
+}
+mongoose.connect('mongodb://'+host+':27017/' + conf.db,{server:{poolSize:5}});
 
 require('./lib/models/User')
 require('./lib/models/Log')
