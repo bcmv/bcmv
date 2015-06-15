@@ -42,7 +42,7 @@ html
 								div(style='text-align:center') OR
 						form(method='post', action='/login-anonymous', style='margin-top:60px')
 							div.actions.clearfix
-								input(value='Log in anonymous',type='submit',style='padding: 0.8em 3em;font-weight:bold;font-size:16px').btn.btn-danger.btn-block
+								input(value='Log in as a guest',type='submit',style='padding: 0.8em 3em;font-weight:bold;font-size:16px').btn.btn-danger.btn-block
 
 				section.col-md-6
 					section.jumbotron.signup-box
@@ -52,7 +52,7 @@ html
 							p.alert.alert-error
 								small
 									strong(style='color:#666')=msg
-						form(method='post', action='/login', style='margin-top:60px')
+						form(method='post', action='/user/register', style='margin-top:60px')
 							div.input
 								input(name='username',type='text',style='height:46px;font-size: 16px;color: black;width: 100%;box-shadow: inset 0 1px 1px #ddd;margin-bottom: 14px;',placeholder='Phone number').form-control
 							div.input

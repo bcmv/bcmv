@@ -2,11 +2,12 @@ extends layout
 
 block content
 	section.row
+		section.col-md-12
+			h1=title
 		section.col-md-5
 			section#media-display-container
 				-var  url =  "http://img-cdn.video2home.net:8020/posters/"+_id +'.jpg'
 				img(src=url).img-responsive
-				h1=title
 		section.col-md-7(style='background: white')
 			h3=year
 			section.row

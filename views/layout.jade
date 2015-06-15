@@ -73,7 +73,7 @@ html
 							br
 							br
 					section#finder-container
-						input(type='text', placeholder='Search for media')#finder
+						input(type='text', placeholder='Find movies, series and softwares')#finder
 						block finder
 					section#search-content
 					section#main-content
@@ -90,18 +90,6 @@ html
 								h5
 									span.glyphicon.glyphicon-plus
 									| &nbsp; Manage media
-							a(href='/manage/flagged').home-task
-								h5
-									span.glyphicon.glyphicon-align-left
-									| &nbsp; Flagged media
-									| &nbsp;
-									span.label.label-info=admin_flagged_count
-							a(href='/media/requests').home-task
-								h5
-									span.glyphicon.glyphicon-pencil
-									| &nbsp;  Requests
-									| &nbsp;
-									span.label.label-info=admin_request_count
 							-if(locals._user.level >= 2)
 								a(href='/user').home-task
 									h5
@@ -114,23 +102,6 @@ html
 										span.glyphicon.glyphicon-user
 										| &nbsp;  Ads								
 
-					-if(locals._user && locals._user.level >= 2)
-						h3.vod-heading Servers
-						section.watchlist.vod-heading
-							-each server in stat_servers
-								-var con  = parseInt(server.status.connections);
-								section(style='padding: 2px 5px')
-									h5
-										span(style=(con != -1 ? "color:green":"color:red")).glyphicon.glyphicon-stop
-										| &nbsp; #{server.host}
-						-var total_con = stat_servers.reduce(function(a,b){return a+parseInt((b.status.connections == "-1" ? 0: b.status.connections))},0)
-						-var total_trans = stat_servers.reduce(function(a,b){return a+parseInt((b.status.transfer_rate == "-1" ? 0: b.status.transfer_rate))},0)
-						section
-							strong #{total_con} 
-							span connections
-						section
-							-var conv = function bytesToSize(bytes) {   if(bytes == 0) return '0 Byte';   var k = 1000;   var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];   var i = Math.floor(Math.log(bytes) / Math.log(k));   return (bytes / Math.pow(k, i)).toPrecision(3) + ' ' + sizes[i];}
-							strong #{conv(total_trans)}/Sec
 					-if(locals._user)
 						h3.vod-heading Cart
 						section.watchlist.vod-heading#cart-items

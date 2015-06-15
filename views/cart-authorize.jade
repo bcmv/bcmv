@@ -13,15 +13,19 @@ block content
 		script.
 			var transaction_number = #{transaction_number};
 			async.forever(function(next){
-				$.get('/cart/status', function(t){
+				$.getJSON('/cart/status', function(t){
 					if(t.status == "payment received"){
 						window.location.href = '/cart/move';
 						//next('');
 					}else{
 						setTimeout(function(){
 							next()
-						},500);
+						},400);
 					}
+				}).fail(function() {
+					setTimeout(function(){
+						next();
+					},400);
 				});
 			}, function(err){
 

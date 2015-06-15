@@ -67,9 +67,12 @@ router.post('/commit', authenticate, function(req, res, next){
 				files:cart.files,
 				transaction_number:num
 			};
-			console.log(trans);
 			var transaction = new Cart(trans);
+			transaction.system_id = conf.system_id;
 			transaction.save(function(err, d){
+				if(err){
+					return next(err);
+				}
 				req.session.cart.transaction_number = num;
 				res.redirect('/cart/authorize')
 			})
@@ -146,6 +149,48 @@ router.get('/pending-payment', authenticateAdmin, function(req, res,next){
 		res.json(carts)
 	})
 });
+router.get('/copy', authenticate, function(req, res, next){
+	res.render('cart-copy', {transaction_number:req.session.cart.transaction_number});
+})
+router.post('/copy', authenticate, function(req, res, next){
+	var t = parseInt(req.body.transaction_number);
+	var mount = req.body.mount;
+	var cart;
+	async.waterfall([
+		function validate(fn){
+			Cart.findOne({transaction_number:t}, function(err, c){
+				if(err){
+					return next(err);
+				}
+				if(!c){
+					return next('transaction not found');
+				}
+				if(c.status != "payment received"){
+					return next('invalid status');
+				}
+				fn();
+			});
+		},
+		function update(fn){
+			var u = {
+				mount:mount,
+				status:'copying'
+			}			
+			Cart.update({transaction_number:t},{$set:u}, function(err, c){
+				if(err){
+					return fn(err);
+				}
+				fn();
+			})
+		}
+	], function(err){
+		if(err){
+			return next(err);
+		}
+		Cart.copy(t);
+		res.redirect('/cart/copy')
+	})
+})
 module.exports = router;
 
 function getCart(req, fn){

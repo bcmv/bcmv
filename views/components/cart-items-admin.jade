@@ -1,5 +1,7 @@
 section.cart-authorize-item(id=item._id)
-	h3 Transaction ##{item.transaction_number}
+	h3
+		span.label.label-info PC #{item.system_id}
+		|  &nbsp;transaction ##{item.transaction_number}
 	-var size = prettyBytes(item.total_bytes);
 	h4 MVR #{item.total_price} — #{size}
 	button.btn.btn-block(data-id=item._id).approve-item Approve

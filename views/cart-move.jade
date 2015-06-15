@@ -6,14 +6,49 @@ block content
 		section#cart-copy
 			h1.vod-heading(style='padding:10px; text-align:center') Plug in your storage device.
 			h5.vod-heading(style='padding:10px; text-align:center') Click on the device once it appear.
+		section(style='width:40%;margin:0 auto;')#drives
 		script.
 			var transaction_number = #{transaction_number};
 			async.forever(function(next){
-				$.get('/drives', function(t){
-					if(t.status == "payment received"){
-				
-					}
+				$.getJSON('/drives', function(t){
+					$(".drive").each(function(){
+						var d = $(this);
+						var mount = d.attr('data-mount');
+						var d = _.find(t, function(e){return e.mount == mount});
+						if(!d){
+							$("[data-mount='"+mount+"']").remove();
+						}
+					})
+					t.forEach(function(a){
+						a.available = prettyBytes(a.available);
+						a.size = prettyBytes(a.size);
+						var html = jade.render('drive',a);
+
+						var e = $("[data-mount='"+a.mount+"']");
+						if(e.length){
+							e.find('.available').text(a.available);
+							e.find('.size').text(a.size);
+						}else{
+							$("#drives").append(html);
+						}
+					});
+					setTimeout(function(){
+						next();
+					},500);
+				}).fail(function() {
+					setTimeout(function(){
+						next();
+					},500);
 				});
 			}, function(err){
 
+			});
+			var transaction_number = #{transaction_number};
+			$(function(){
+				$("body").on('click', '.drive', function(){
+					var mount = $(this).attr('data-mount');
+					$.post('/cart/copy',{mount:mount, transaction_number:transaction_number}, function(res){
+						window.location.href = '/cart/copy';
+					});
+				});
 			})

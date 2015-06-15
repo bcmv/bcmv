@@ -456,7 +456,7 @@ router.post('/register', function(req, res) {
 	var data = req.body;
 	async.waterfall([
 		function verifyFields(fn){
-			var fields = "name username email password mobile".split(" ");
+			var fields = "username password".split(" ");
 			for(var i=0;i<fields.length;i++){
 				if(typeof fields[i] == "undefined"){
 					return fn("Field for "+i+" not found");
@@ -475,11 +475,11 @@ router.post('/register', function(req, res) {
 		},
 		function checkUsernameEmail(fn){
 			User
-			.findOne({$or:[{username:new RegExp("^" + data.username + "$",'i')},{email:new RegExp("^" + data.email + "$",'i')},{phone_number:new RegExp("^" + data.mobile + "$",'i')}]})
+			.findOne({$or:[{username:new RegExp("^" + data.username + "$",'i')}]})
 			.lean()
 			.exec(function(err, u){
 				if(u){
-					return fn("Username, email or mobile number already registered!");
+					return fn("Username already registered!");
 				}
 				fn();
 			})
@@ -489,6 +489,8 @@ router.post('/register', function(req, res) {
 			var user = new User(data);
 			user.groups = [{name:'user'}];
 			user.date_registered = new Date();
+			user.status = "activated";
+			user.verified = true;
 			user.save(function(err, doc){
 				if(err){
 					console.log(err);
@@ -496,43 +498,6 @@ router.post('/register', function(req, res) {
 				}
 				fn();
 			})
-		},
-		function addHtaccess(fn){
-			fn();
-			var con = new Pool(5, {
-				host:conf.mysql_host,
-				user:conf.mysql_user,
-				password:conf.mysql_pass,
-				database:conf.mysql_db,
-				insecureAuth:true
-			});
-			var query = "INSERT INTO forhtaccess (user, pas, email, status) VALUES ('"+data.username+"', ENCRYPT('"+data.password+"'), '"+data.email+"', '0');";
-			con.query(query, function(err, res){
-				con.dispose();
-				if(err){
-					console.log(err);
-					return fn("an error occured");
-				}
-			});
-		},
-		function sendEmail(fn){
-			fn();
-			//send email
-			User.findOne({email:data.email}, function(err, user){
-				if(err){
-					return console.log(err);					
-				}
-				var pass = user.password.toString();
-				var token = pass.substr(3,17);
-				var url = "http://video2home.net/user/activate?token=" + token +"&user=" + user.username;
-				transporter.sendMail({
-					from: "noreply <noreply@video2home.net>",
-					to:user.email,
-					subject:"Activate your Video2Home account",
-					//text:"test",
-					html:'<h4> Click the link below to activate your account</h4><br /> <a href="'+url+'">'+url+'</a>'
-				},console.log);
-			});
 		}
 	], function(err, result){
 		if(err){
@@ -542,7 +507,7 @@ router.post('/register', function(req, res) {
 			console.log(err);
 			return res.end();
 		}
-		res.json({message:"Successfully registered. An email have been sent to " + data.email + ", please activate your account."})
+		res.json({message:"Successfully registered."})
 	})
 });
 

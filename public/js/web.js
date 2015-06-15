@@ -1,5 +1,7 @@
 //preload images
-
+// $.ajaxSetup({
+// 	timeout:200
+// });
 var vod = window.vod = {
 	selectedMedia:{},
 	mediaDisplayType:"popover",
@@ -211,7 +213,11 @@ var vod = window.vod = {
 				});
 				setTimeout(function(){
 					vod.getRequests();
-				},1000)
+				},500)
+			}).fail(function(){
+				setTimeout(function(){
+					vod.getRequests();
+				},500)				
 			});
 		}, function(err){
 
@@ -349,7 +355,7 @@ $(function(){
 		})
 	});
 	$("body").on('click', '#signup', function(){
-		var fields = "name username email password mobile".split(" ");
+		var fields = "username password".split(" ");
 		var vals = {};
 		_.each(fields, function(f){vals[f] = $("#signup-" +f).val()});
 		var isEmpty = _.find(fields, function(f){return $("#signup-" +f).val() == "";}) ? true : false;
@@ -362,13 +368,8 @@ $(function(){
 			$("#modal-error").modal('show');
 			return;
 		}
-		if(vals.mobile.length != 7){
+		if(vals.username.length != 7){
 			$("#error-message").text('Incorrect mobile number');
-			$("#modal-error").modal('show');
-			return;
-		}
-		if(!vals.username.match(/^[a-zA-Z0-9_]*$/)){
-			$("#error-message").text('Username must contain letters and numbers!');
 			$("#modal-error").modal('show');
 			return;
 		}

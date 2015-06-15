@@ -178,7 +178,16 @@ app.use(function(req, res, next){
 		if(!t){
 			return next();
 		}
-		if(req.url == "/cart/authorize" || req.url == "/cart/move" || req.url == "/cart/cancel" || req.url == "/cart/status"){
+		if(
+			req.url == "/logout" || 
+			req.url == "/drives" || 
+			req.url == "/cart/authorize" || 
+			req.url == "/cart/move" || 
+			req.url == "/cart/copy" || 
+			req.url == "/cart/drive" || 
+			req.url == "/cart/cancel" || 
+			req.url == "/cart/status"){
+
 			return next();
 		}
 		if(t.status == 'pending payment'){
@@ -372,6 +381,7 @@ app.get('/drives', authenticate, function(req, res){
 		res.json(list);
 	})
 })
+
 function filter(obj){
 	if(!obj){
 		return [];

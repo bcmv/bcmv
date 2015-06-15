@@ -63,7 +63,7 @@ router.get('/new/:type', function(req, res) {
 		if(req.query.nf){
 			res.json(medias);
 		}else{
-			filterMedia(req, medias, function(medias){
+			filterMedia(req, medias,true, function(medias){
 				res.json(medias);
 			})
 		}
@@ -98,7 +98,7 @@ router.get('/top/:type', function(req, res) {
 			return _.max(m.files, function(file){return file.downloads;}).downloads;
 		}).reverse();
 		medias = medias.slice(0,10);
-		filterMedia(req, medias, function(medias){
+		filterMedia(req, medias,true, function(medias){
 			res.json(medias);
 		})
 	});
@@ -673,9 +673,15 @@ router.get('/search', function(req, res) {
 	.sort({_id:-1})
 	.lean()
 	.exec(function(err, docs){
-		filterMedia(req, docs, function(docs){
-			res.json(docs);
-		})
+		if(query.include_unpublished){
+			filterMedia(req, docs, function(docs){
+				res.json(docs);
+			});
+		}else{
+			filterMedia(req, docs, true, function(docs){
+				res.json(docs);
+			});			
+		}
 	});
 });
 
@@ -858,6 +864,7 @@ router.post('/:id/upload', authenticateAdmin, function(req, res, next) {
 					user:req.user.username,
 					directory:directory,
 					path:f.path,
+					url: conf.fs_location['local'].uri +  '/media/' + directory + '/' + filename,
 					location: path.join(conf.fs_location['local'].parent, '/media/',directory,filename),
 					location_parent: conf.fs_location['local'].parent,
 					migrated:false,

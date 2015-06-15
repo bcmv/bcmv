@@ -1,0 +1,37 @@
+extends cart-layout
+
+block content
+	section.col-md-12
+		h1.vod-heading(style='padding:10px;margin-top:200px; text-align:center') ##{transaction_number}
+		section#cart-copy
+			h1.vod-heading(style='padding:10px; text-align:center') Copying...
+			h5.vod-heading(style='padding:10px; text-align:center') Please don't remove your device
+		section(style='width:40%;margin:0 auto;')
+			h1.vod-heading(style='padding:10px; text-align:center')#copy-percent 0%
+			section(style='padding:10px; text-align:center')
+				a.btn.btn-lg.btn-info(style='display:none', href='/logout')#done Done
+
+		script.
+			var transaction_number = #{transaction_number};
+			async.forever(function(next){
+				$.getJSON('/cart/status', function(res){
+					var percent = (res.total_bytes_copied / res.total_bytes) * 100;
+					percent = Math.round(percent * 100) / 100;
+					if(res.total_bytes_copied == res.total_bytes){
+						percent == 100;
+						$("#done").show();
+					}else{
+						$("#done").hide();
+					}
+					$("#copy-percent").html(percent + "%");
+					setTimeout(function(){
+						next();
+					},400);
+				}).fail(function() {
+					setTimeout(function(){
+						next();
+					},400);
+				})
+			}, function(err){
+
+			})
