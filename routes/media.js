@@ -69,6 +69,18 @@ router.get('/new/:type', function(req, res) {
 		}
 	});
 });
+
+router.post('/set-price', authenticateAdmin, function(req,res, next){
+	var fid = req.body.fid;
+	var price = req.body.price;
+	var q = {'files._id':fid};
+	Media.update(q, {$set:{'files.$.price':parseInt(price)}}, function(err, c){
+		if(err){
+			return next(err);
+		}
+		res.end();
+	})
+});
 router.get('/top/:type', function(req, res) {
 	var type = req.params.type.toLowerCase();
 	var q = {};

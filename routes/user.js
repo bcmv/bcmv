@@ -507,7 +507,7 @@ router.post('/register', function(req, res) {
 			console.log(err);
 			return res.end();
 		}
-		res.json({message:"Successfully registered."})
+		res.redirect('/');
 	})
 });
 

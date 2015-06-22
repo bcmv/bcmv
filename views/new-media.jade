@@ -262,4 +262,9 @@ block content
 
 				});
 			});
+			$("body").on('change', '.set-price',function(){
+				var price = $(this).val();
+				var fid = $(this).attr('data-id');
+				$.post('/media/set-price',{price:price, fid:fid});
+			});
 		});

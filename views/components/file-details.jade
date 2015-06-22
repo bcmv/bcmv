@@ -4,4 +4,13 @@ section.row
 	section(style='margin-bottom:5px;')
 		span.label.label-default #{file.name} (#{size})
 		span &nbsp;&nbsp;
+		select.set-price(data-id=file._id)
+			-for(var i=0;i<=10;i++){
+				-if(i == file.price)
+					option(value=i, selected) MVR #{i}
+				-else
+					option(value=i) MVR #{i}
+			-}
+
+		span &nbsp;&nbsp;
 		span.delete-file.label.label-danger(data-id=file._id) delete
