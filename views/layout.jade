@@ -40,17 +40,19 @@ html
 								span.icon-bar
 							a(href='/')
 								img(src="/images/logo_new.png")#logo
-								
+						
 						div.collapse.navbar-collapse#header-menu.pull-right
 							ul.nav.navbar-nav
 								//li
 									a(href="/") Subscriptions
+								li									
+									section#finder-container
+										input(type='text', placeholder='Find movies, series and softwares')#finder.form-control
 								li
 									a(href="/movies") Movies
 								li
 									a(href="/series") Series
-								li
-									a(href="/applications") Apps
+
 								-if(locals._user)
 									//
 										li
@@ -72,9 +74,6 @@ html
 							img(src='http://img-cdn.video2home.net:8020/ads/' + ads.above_search_bar.file_name)
 							br
 							br
-					section#finder-container
-						input(type='text', placeholder='Find movies, series and softwares')#finder
-						block finder
 					section#search-content
 					section#main-content
 						block content
