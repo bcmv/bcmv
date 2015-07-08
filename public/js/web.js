@@ -473,7 +473,7 @@ $(function(){
 					}
 				}else{
 					var more = res.length < 4 ?'':jade.render('search-more');
-					var html = '<ul class="dl-horizontal listing">'+items.join('')+'</ul>' + more;
+					var html = '<ul class="dl-horizontal listing list-inline">'+items.join('')+'</ul>' + more;
 					$("#search-content").html(html);
 				}
 			});	

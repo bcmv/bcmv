@@ -678,13 +678,14 @@ router.get('/search', function(req, res) {
 	if(!query.include_unpublished){
 		search_query.published = true;
 	}
-	console.log(search_query);
+	search_query['files._id'] = {$exists:true};
 	Media
 	.find(search_query, fields)
 	.limit(limit)
 	.sort({_id:-1})
 	.lean()
 	.exec(function(err, docs){
+		console.log(docs);
 		if(query.include_unpublished){
 			filterMedia(req, docs, function(docs){
 				res.json(docs);
